@@ -39,7 +39,7 @@ const server = http.createServer((request, response) => {
       }
 
 });
-
+//
 server.listen(port, hostname, () => {
     console.log(`Сервер запущен по адресу http://${hostname}:${port}/`)
 });
