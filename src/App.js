@@ -9,6 +9,8 @@ const loggerOne = require("./middleware/loggerOne");
 
 dotenv.config();
 
+const app = express();
+
 const { 
     PORT = 3000, 
     API_URL = 'http://localhost',
@@ -16,14 +18,11 @@ const {
 } = process.env;
 
 mongoose
-    .connect(MONGO_URL)
-    .then(console.log("Connected to MongoDB"))
-    .catch((error) => console.log(error));
-
-const app = express();
+  .connect(MONGO_URL)
+  .then(() => console.log(`Connected to MongoDb: ${MONGO_URL}`))
+  .catch((error) => console.log(error));
 
 app.use(cors());
-
 app.use(loggerOne);
 app.use(bodyParser.json());
 

@@ -1,10 +1,27 @@
 const User = require("../models/users")
 
+//get all users
 const getUsers = (request, response) => {
-    //get all users
+    User.find({})
+    .then(user => {
+        response.status(200).send(user);
+    })
+    .catch(e => {
+        response.status(500).send(e.message);
+    });
 };
-const getUser = (request, response) => {
+
     //get a user
+const getUser = (request, response) => {
+    const { user_id } = request.params;
+    User.findById(user_id)
+      .then((user) => {
+        if (!user) response.status(404).send("User not found");
+        else response.status(200).send(user);
+      })
+      .catch((e) => {
+        response.status(500).send(e.message);
+      });
 };
 
 //Создание пользователя
@@ -19,11 +36,31 @@ const createUser = (request, response) => {
         });
 };
 
+//update a user
 const updateUser = (request, response) => {
-    //update a user
+    const { user_id } = request.params;
+    const data = request.body;
+    User.findByIdAndUpdate(user_id, data, { new: true, runValidators: true })
+      .then((user) => {
+        if (!user) response.status(404).send("User not found");
+        else response.status(200).send(user);
+      })
+      .catch((e) => {
+        response.status(500).send(e.message);
+      });
 };
+
+//delete a user
 const deleteUser = (request, response) => {
-    //delete a user
+    const { user_id } = request.params;
+    User.findByIdAndDelete(user_id)
+      .then((user) => {
+        if (!user) response.status(404).send("User not found");
+        else response.status(200).send("Done");
+      })
+      .catch((e) => {
+        response.status(500).send(e.message);
+      });
 };
 
 module.exports = {
