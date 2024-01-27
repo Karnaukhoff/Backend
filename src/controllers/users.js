@@ -1,13 +1,24 @@
+const User = require("../models/users")
+
 const getUsers = (request, response) => {
     //get all users
 };
 const getUser = (request, response) => {
     //get a user
 };
+
+//Создание пользователя
 const createUser = (request, response) => {
-    response.status(201);
-    response.send(request.body);
+    const data = request.body;
+    User.create(data)
+        .then(user => {
+            response.status(201).send(user);
+        })
+        .catch(e => {
+            response.status(500).send(e.message);
+        });
 };
+
 const updateUser = (request, response) => {
     //update a user
 };

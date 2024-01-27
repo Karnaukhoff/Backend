@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const userRouter = require("./routes/users");
 const booksRouter = require("./routes/books");
 const loggerOne = require("./middleware/loggerOne");
@@ -10,8 +11,14 @@ dotenv.config();
 
 const { 
     PORT = 3000, 
-    API_URL = 'http://localhost' 
+    API_URL = 'http://localhost',
+    MONGO_URL = "mongodb://127.0.0.1:27017/backend",
 } = process.env;
+
+mongoose
+    .connect(MONGO_URL)
+    .then(console.log("Connected to MongoDB"))
+    .catch((error) => console.log(error));
 
 const app = express();
 
